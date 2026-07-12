@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">📅 Book a Resource</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="bi bi-box"></i> Select Resource
+                    </label>
+
+                    <select name="resource_asset_id"
+                            class="form-select"
+                            required>
+                        <option value="">-- Select Resource --</option>
+
+                        {% for r in resources %}
+                        <option value="{{ r.id }}">
+                            {{ r.asset_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            Start Date
+                        </label>
+
+                        <input type="datetime-local"
+                               name="start_time"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">
+                            End Date
+                        </label>
+
+                        <input type="datetime-local"
+                               name="end_time"
+                               class="form-control"
+                               required>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">
+                        Purpose of Booking
+                    </label>
+
+                    <textarea name="purpose"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Enter purpose of booking"></textarea>
+                </div>
+
+                <div class="text-center">
+
+                    <button type="submit"
+                            class="btn btn-success px-5">
+                        ✅ Book Resource
+                    </button>
+
+                    <a href="{{ url_for('booking.list_bookings') }}"
+                       class="btn btn-secondary px-5">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
