@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{{ asset.name }} <span class="text-muted fs-6">({{ asset.asset_tag }})</span></h3>
+<p><span class="badge bg-info text-dark">{{ asset.status }}</span> · {{ asset.location }} · {{ asset.condition }}</p>
+
+<h5 class="mt-4">Allocation history</h5>
+<table class="table">
+  <thead><tr><th>Employee</th><th>Allocated on</th><th>Expected return</th><th>Returned on</th><th>Status</th></tr></thead>
+  <tbody>
+    {% for a in allocations %}
+    <tr>
+      <td>{{ a.employee_name }}</td><td>{{ a.allocated_on }}</td>
+      <td>{{ a.expected_return or "-" }}</td><td>{{ a.returned_on or "-" }}</td><td>{{ a.status }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h5 class="mt-4">Maintenance history</h5>
+<table class="table">
+  <thead><tr><th>Issue</th><th>Priority</th><th>Status</th></tr></thead>
+  <tbody>
+    {% for m in maintenance %}
+    <tr><td>{{ m.issue }}</td><td>{{ m.priority }}</td><td>{{ m.status }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
