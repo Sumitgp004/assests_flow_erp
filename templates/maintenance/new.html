@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-4">Raise Maintenance Request</h3>
+<form method="POST" class="row g-3">
+  <div class="col-md-6">
+    <label class="form-label">Asset</label>
+    <select name="asset_id" class="form-select" required>
+      {% for a in assets %}
+      <option value="{{ a.id }}">{{ a.asset_tag }} - {{ a.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Priority</label>
+    <select name="priority" class="form-select">
+      <option value="low">Low</option>
+      <option value="medium" selected>Medium</option>
+      <option value="high">High</option>
+    </select>
+  </div>
+  <div class="col-12">
+    <label class="form-label">Describe the issue</label>
+    <textarea name="issue" class="form-control" rows="3" required></textarea>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Submit Request</button>
+  </div>
+</form>
+{% endblock %}
