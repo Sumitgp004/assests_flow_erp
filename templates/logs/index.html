@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-4">Activity Log</h3>
+<table class="table">
+  <thead><tr><th>When</th><th>User</th><th>Action</th><th>Target</th></tr></thead>
+  <tbody>
+    {% for e in entries %}
+    <tr>
+      <td>{{ e.timestamp }}</td>
+      <td>{{ e.user_name or "System" }}</td>
+      <td>{{ e.action }}</td>
+      <td>{{ e.target or "-" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
