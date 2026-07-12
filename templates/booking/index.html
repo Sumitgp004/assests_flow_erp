@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h3>📅 Resource Bookings</h3>
+
+        <a href="{{ url_for('booking.book') }}"
+           class="btn btn-primary">
+            + New Booking
+        </a>
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Resource</th>
+                        <th>User</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for b in bookings %}
+                    <tr>
+
+                        <td>{{ b.id }}</td>
+
+                        <td>{{ b.asset_name }}</td>
+
+                        <td>{{ b.full_name }}</td>
+
+                        <td>{{ b.start_time }}</td>
+
+                        <td>{{ b.end_time }}</td>
+
+                        <td>
+
+                            {% if b.status == 'upcoming' %}
+                                <span class="badge bg-warning">
+                                    Upcoming
+                                </span>
+
+                            {% elif b.status == 'ongoing' %}
+                                <span class="badge bg-success">
+                                    Ongoing
+                                </span>
+
+                            {% elif b.status == 'completed' %}
+                                <span class="badge bg-secondary">
+                                    Completed
+                                </span>
+
+                            {% else %}
+                                <span class="badge bg-danger">
+                                    Cancelled
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
