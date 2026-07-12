@@ -2,7 +2,7 @@ from flask import Flask, render_template, session, redirect, url_for
 import database
 from routes.auth import auth_bp
 from routes.org import org_bp
-from routes.assets import assets_bp
+from routes.assests import assets_bp
 from routes.allocation import allocation_bp
 from routes.booking import booking_bp
 from routes.maintenance import maintenance_bp
