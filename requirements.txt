@@ -1,0 +1,17 @@
+# Core Web Framework
+Flask==3.0.2
+
+# Environment Variable Management (for keeping your database passwords safe)
+python-dotenv==1.0.1
+
+# User Authentication & Session Management
+Flask-Login==0.6.3
+
+# Database Connector (Choose ONE based on your DB)
+# If using PostgreSQL:
+psycopg2-binary==2.9.9
+
+# If using SQLite (Great for hackathons, requires no external server setup):
+# (SQLite is built into Python, so no pip install is required for the driver itself)
+
+#pip install -r requirements.txt
