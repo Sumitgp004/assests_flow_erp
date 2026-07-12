@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AssetFlow Management</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{% if session.get('user_id') %}
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <div class="brand-mark"><i class="fa-solid fa-server"></i></div>
+    <span class="brand-text">AssetFlow</span>
+  </div>
+
+  <nav class="side-nav">
+    <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+      <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+    </a>
+    <a href="{{ url_for('assets.index') }}" class="nav-item {% if request.endpoint and request.endpoint.startswith('assets') %}active{% endif %}">
+      <i class="fa-solid fa-cubes-stacked"></i><span>Assets</span>
+    </a>
+    <a href="{{ url_for('allocation.index') }}" class="nav-item {% if request.endpoint and request.endpoint.startswith('allocation') %}active{% endif %}">
+      <i class="fa-solid fa-user-tag"></i><span>Allocation</span>
+    </a>
+    <a href="{{ url_for('booking.index') }}" class="nav-item {% if request.endpoint and request.endpoint.startswith('booking') %}active{% endif %}">
+      <i class="fa-solid fa-calendar-check"></i><span>Booking</span>
+    </a>
+    <a href="{{ url_for('maintenance.index') }}" class="nav-item {% if request.endpoint and request.endpoint.startswith('maintenance') %}active{% endif %}">
+      <i class="fa-solid fa-screwdriver-wrench"></i><span>Maintenance</span>
+    </a>
+    {% if session.get('role') == 'admin' %}
+    <a href="{{ url_for('org.index') }}" class="nav-item {% if request.endpoint and request.endpoint.startswith('org') %}active{% endif %}">
+      <i class="fa-solid fa-sitemap"></i><span>Org Setup</span>
+    </a>
+    {% endif %}
+  </nav>
+
+  <div class="side-bottom">
+    <a href="{{ url_for('auth.logout') }}" class="nav-item logout">
+      <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
+    </a>
+  </div>
+</aside>
+{% endif %}
+
+<div class="main-wrap" id="mainWrap">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="project-name">
+        <span class="pn-main">AssetFlow Enterprise</span>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      {% if session.get('user_id') %}
+      <div class="profile-chip">
+        <div class="profile-meta">
+          <span class="pm-name">{{ session.get('name') }}</span>
+          <span class="pm-role" style="text-transform: capitalize;">{{ session.get('role').replace('_', ' ') }}</span>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div style="padding: 1rem 2rem;">
+        {% for message in messages %}
+          <div class="glass-card" style="border-left: 4px solid #f59e0b; padding: 1rem; margin-bottom: 1rem;">
+            <i class="fa-solid fa-circle-info"></i> {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <main class="content">
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
