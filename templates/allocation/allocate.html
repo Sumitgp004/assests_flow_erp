@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-4">Allocate Asset</h3>
+<form method="POST" class="row g-3">
+  <div class="col-md-6">
+    <label class="form-label">Asset</label>
+    <select name="asset_id" class="form-select" required>
+      {% for a in assets %}
+      <option value="{{ a.id }}">{{ a.asset_tag }} - {{ a.name }}</option>
+      {% endfor %}
+    </select>
+    <div class="form-text">Only currently-available assets are listed. To allocate a held asset, use Transfer from the Allocation list instead.</div>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Employee</label>
+    <select name="employee_id" class="form-select" required>
+      {% for e in employees %}
+      <option value="{{ e.id }}">{{ e.name }} ({{ e.email }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Expected Return Date (optional)</label>
+    <input type="date" name="expected_return" class="form-control">
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Allocate</button>
+  </div>
+</form>
+{% endblock %}
