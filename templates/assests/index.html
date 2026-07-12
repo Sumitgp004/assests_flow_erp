@@ -1,60 +1,102 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="page active">
-  <div class="page-heading">
-    <div>
-      <h1>Asset Inventory</h1>
-      <p>Full catalog of company equipment and resources</p>
-    </div>
-    <div class="page-actions">
-      {% if session.get('role') in ['admin', 'asset_manager'] %}
-        <a href="{{ url_for('assets.new') }}" class="btn btn-primary">
-          <i class="fa-solid fa-plus"></i> Add New Asset
-        </a>
-      {% endif %}
-    </div>
-  </div>
 
-  <div class="glass-card table-card" style="padding: 1.5rem; overflow-x: auto;">
-    <table class="data-table" style="width: 100%; border-collapse: collapse; text-align: left;">
-      <thead>
-        <tr style="border-bottom: 1px solid #e2e8f0;">
-          <th style="padding: 1rem;">Asset Tag</th>
-          <th style="padding: 1rem;">Name</th>
-          <th style="padding: 1rem;">Serial Number</th>
-          <th style="padding: 1rem;">Status</th>
-          <th style="padding: 1rem;">Location</th>
-          <th style="padding: 1rem;">Condition</th>
-          <th style="padding: 1rem;">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for a in assets %}
-        <tr style="border-bottom: 1px solid #f1f5f9;">
-          <td style="padding: 1rem; font-weight: 600;">{{ a.asset_tag }}</td>
-          <td style="padding: 1rem;">{{ a.name }}</td>
-          <td style="padding: 1rem;">{{ a.serial_number or '-' }}</td>
-          <td style="padding: 1rem;">
-            <span style="padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; 
-              background-color: {% if a.status == 'available' %}#d1fae5; color: #065f46;
-                                {% elif a.status == 'allocated' %}#dbeafe; color: #1e40af;
-                                {% elif a.status == 'maintenance' %}#fef3c7; color: #92400e;
-                                {% else %}#f1f5f9; color: #475569;{% endif %}">
-              {{ a.status | title }}
-            </span>
-          </td>
-          <td style="padding: 1rem;">{{ a.location }}</td>
-          <td style="padding: 1rem;">{{ a.condition }}</td>
-          <td style="padding: 1rem;">
-            <a href="{{ url_for('assets.detail', asset_id=a.id) }}" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">
-              <i class="fa-solid fa-eye"></i> View
+<section class="page active">
+
+    <div class="page-heading">
+        <div>
+            <h1>Asset Inventory</h1>
+            <p>Full catalog of company equipment and resources</p>
+        </div>
+
+        <div class="page-actions">
+            {% if session.get('role') in ['admin', 'asset_manager'] %}
+            <a href="{{ url_for('assets.new') }}" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Add New Asset
             </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="glass-card table-card" style="padding:20px; overflow-x:auto;">
+
+        <table class="data-table" style="width:100%; border-collapse:collapse;">
+
+            <thead>
+                <tr>
+                    <th>Asset Tag</th>
+                    <th>Name</th>
+                    <th>Serial Number</th>
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Condition</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% if assets %}
+
+                {% for a in assets %}
+                <tr>
+
+                    <td>{{ a.asset_tag }}</td>
+
+                    <td>{{ a.name }}</td>
+
+                    <td>{{ a.serial_number if a.serial_number else "-" }}</td>
+
+                    <td>
+
+                        {% if a.status == "available" %}
+                            <span class="badge bg-success">Available</span>
+
+                        {% elif a.status == "allocated" %}
+                            <span class="badge bg-primary">Allocated</span>
+
+                        {% elif a.status == "maintenance" %}
+                            <span class="badge bg-warning text-dark">Maintenance</span>
+
+                        {% else %}
+                            <span class="badge bg-secondary">{{ a.status }}</span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ a.location }}</td>
+
+                    <td>{{ a.condition }}</td>
+
+                    <td>
+                        <a href="{{ url_for('assets.detail', asset_id=a.id) }}"
+                           class="btn btn-outline-primary btn-sm">
+                            View
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+                    <td colspan="7" style="text-align:center;">
+                        No assets found.
+                    </td>
+                </tr>
+
+            {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
 </section>
+
 {% endblock %}
