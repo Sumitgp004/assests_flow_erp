@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Asset Management System</title>
+
+<!-- Google Fonts: Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <div class="brand-mark"><i class="fa-solid fa-server"></i></div>
+    <span class="brand-text">LabAMS</span>
+  </div>
+
+  <nav class="side-nav">
+    <a href="#" class="nav-item active" data-page="dashboard">
+      <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" data-page="labs">
+      <i class="fa-solid fa-door-open"></i><span>Labs</span>
+    </a>
+    <a href="#" class="nav-item" data-page="assets">
+      <i class="fa-solid fa-cubes-stacked"></i><span>Assets</span>
+    </a>
+    <a href="#" class="nav-item" data-page="categories">
+      <i class="fa-solid fa-layer-group"></i><span>Asset Categories</span>
+    </a>
+    <a href="#" class="nav-item" data-page="status">
+      <i class="fa-solid fa-circle-half-stroke"></i><span>Asset Status</span>
+    </a>
+    <a href="#" class="nav-item" data-page="repairs">
+      <i class="fa-solid fa-screwdriver-wrench"></i><span>Repairs</span>
+    </a>
+    <a href="#" class="nav-item" data-page="employees">
+      <i class="fa-solid fa-users"></i><span>Employees</span>
+    </a>
+    <a href="#" class="nav-item" data-page="reports">
+      <i class="fa-solid fa-file-chart-column"></i><span>Reports</span>
+    </a>
+    <a href="#" class="nav-item" data-page="settings">
+      <i class="fa-solid fa-gear"></i><span>Settings</span>
+    </a>
+  </nav>
+
+  <div class="side-bottom">
+    <a href="#" class="nav-item logout" id="logoutBtn">
+      <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
+    </a>
+  </div>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ============ MAIN WRAP ============ -->
+<div class="main-wrap" id="mainWrap">
+
+  <!-- TOP NAVBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="icon-btn" id="sidebarToggle" aria-label="Toggle sidebar">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="college-logo">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div class="project-name">
+        <span class="pn-main">Lab Asset Management System</span>
+        <span class="pn-sub">St. Xavier College of Engineering</span>
+      </div>
+    </div>
+
+    <div class="topbar-center">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="globalSearch" placeholder="Search assets, labs, employees…">
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <div class="icon-btn notif-btn" id="notifBtn">
+        <i class="fa-solid fa-bell"></i>
+        <span class="badge-dot">5</span>
+      </div>
+      <div class="profile-chip">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiMyNTYzZWIiLz48dGV4dCB4PSI1MCUiIHk9IjU0JSIgZm9udC1zaXplPSIxNiIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIj5BSzwvdGV4dD48L3N2Zz4=" alt="Profile">
+        <div class="profile-meta">
+          <span class="pm-name">Arjun Kulkarni</span>
+          <span class="pm-role">Lab Administrator</span>
+        </div>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- NOTIFICATION DROPDOWN -->
+  <div class="notif-panel" id="notifPanel">
+    <div class="notif-panel-head">Notifications</div>
+    <div class="notif-item"><i class="fa-solid fa-triangle-exclamation warn"></i><div><b>Printer (Lab 2)</b> reported not working<span>2 hours ago</span></div></div>
+    <div class="notif-item"><i class="fa-solid fa-screwdriver-wrench info"></i><div><b>Projector (Lab 3)</b> sent for repair<span>Yesterday</span></div></div>
+    <div class="notif-item"><i class="fa-solid fa-circle-check ok"></i><div><b>Desktop #DT-014</b> repaired &amp; restored<span>2 days ago</span></div></div>
+    <div class="notif-item"><i class="fa-solid fa-calendar-day info"></i><div><b>AC maintenance</b> due next week in Lab 1<span>3 days ago</span></div></div>
+    <div class="notif-item"><i class="fa-solid fa-user-plus ok"></i><div>New employee <b>Priya Sharma</b> added<span>4 days ago</span></div></div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <main class="content">
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <section class="page active" id="page-dashboard">
+      <div class="page-heading">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Overview of all lab assets across campus</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-primary" id="quickAddAssetBtn"><i class="fa-solid fa-plus"></i> Add Asset</button>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-grid" id="statGrid"></div>
+
+      <!-- CHARTS -->
+      <div class="chart-grid">
+        <div class="glass-card chart-card">
+          <div class="card-head"><h3><i class="fa-solid fa-chart-pie"></i> Assets by Category</h3></div>
+          <div class="chart-holder"><canvas id="chartCategory"></canvas></div>
+        </div>
+        <div class="glass-card chart-card">
+          <div class="card-head"><h3><i class="fa-solid fa-chart-simple"></i> Working vs Not Working</h3></div>
+          <div class="chart-holder"><canvas id="chartWorking"></canvas></div>
+        </div>
+        <div class="glass-card chart-card">
+          <div class="card-head"><h3><i class="fa-solid fa-door-open"></i> Assets per Lab</h3></div>
+          <div class="chart-holder"><canvas id="chartLab"></canvas></div>
+        </div>
+        <div class="glass-card chart-card">
+          <div class="card-head"><h3><i class="fa-solid fa-screwdriver-wrench"></i> Repair Statistics</h3></div>
+          <div class="chart-holder"><canvas id="chartRepair"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LABS PAGE ===== -->
+    <section class="page" id="page-labs">
+      <div class="page-heading">
+        <div><h1>Labs</h1><p>Manage all computer labs in the college</p></div>
+        <div class="page-actions">
+          <button class="btn btn-primary" id="addLabBtn"><i class="fa-solid fa-plus"></i> Add Lab</button>
+        </div>
+      </div>
+      <div class="lab-grid" id="labGrid"></div>
+    </section>
+
+    <!-- ===== ASSETS PAGE ===== -->
+    <section class="page" id="page-assets">
+      <div class="page-heading">
+        <div><h1>Assets</h1><p>Full inventory of lab equipment</p></div>
+        <div class="page-actions">
+          <button class="btn btn-outline" id="exportCsvBtn"><i class="fa-solid fa-file-csv"></i> Export</button>
+          <button class="btn btn-primary" id="addAssetBtn"><i class="fa-solid fa-plus"></i> Add New Asset</button>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="glass-card filter-bar">
+        <div class="filter-field">
+          <label>Lab</label>
+          <select id="filterLab"><option value="">All Labs</option></select>
+        </div>
+        <div class="filter-field">
+          <label>Category</label>
+          <select id="filterCategory"><option value="">All Categories</option></select>
+        </div>
+        <div class="filter-field">
+          <label>Working Status</label>
+          <select id="filterStatus">
+            <option value="">All Status</option>
+            <option>Working</option>
+            <option>Not Working</option>
+            <option>Under Repair</option>
+            <option>Repaired</option>
+            <option>Unrepaired</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label>Power Status</label>
+          <select id="filterPower">
+            <option value="">All</option>
+            <option>Powered On</option>
+            <option>Powered Off</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label>Purchase Date</label>
+          <input type="date" id="filterDate">
+        </div>
+        <div class="filter-field">
+          <label>Employee</label>
+          <select id="filterEmployee"><option value="">All Employees</option></select>
+        </div>
+        <button class="btn btn-ghost" id="clearFilters"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+      </div>
+
+      <!-- ASSET TABLE -->
+      <div class="glass-card table-card">
+        <div class="table-scroll">
+          <table class="data-table" id="assetTable">
+            <thead>
+              <tr>
+                <th>Asset ID</th>
+                <th>Asset Name</th>
+                <th>Category</th>
+                <th>Lab</th>
+                <th>Serial No.</th>
+                <th>Purchase Date</th>
+                <th>Warranty</th>
+                <th>Cost (₹)</th>
+                <th>Assigned To</th>
+                <th>Working Status</th>
+                <th>Power</th>
+                <th>Last Maint.</th>
+                <th>Next Maint.</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="assetTableBody"></tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span id="tableCount">Showing 0 of 0 assets</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ASSET CATEGORIES PAGE ===== -->
+    <section class="page" id="page-categories">
+      <div class="page-heading">
+        <div><h1>Asset Categories</h1><p>15 categories tracked across all labs</p></div>
+      </div>
+      <div class="category-grid" id="categoryGrid"></div>
+    </section>
+
+    <!-- ===== ASSET STATUS PAGE ===== -->
+    <section class="page" id="page-status">
+      <div class="page-heading">
+        <div><h1>Asset Status</h1><p>Legend and live counts for every status type</p></div>
+      </div>
+      <div class="status-legend-grid" id="statusLegendGrid"></div>
+    </section>
+
+    <!-- ===== REPAIRS PAGE ===== -->
+    <section class="page" id="page-repairs">
+      <div class="page-heading">
+        <div><h1>Repairs</h1><p>Track assets under repair and repair history</p></div>
+        <div class="page-actions">
+          <button class="btn btn-primary" id="addRepairBtn"><i class="fa-solid fa-plus"></i> Log Repair</button>
+        </div>
+      </div>
+      <div class="glass-card table-card">
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Asset ID</th><th>Asset Name</th><th>Lab</th><th>Issue Reported</th>
+                <th>Sent Date</th><th>Expected Return</th><th>Status</th><th>Technician</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="repairTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== EMPLOYEES PAGE ===== -->
+    <section class="page" id="page-employees">
+      <div class="page-heading">
+        <div><h1>Employees</h1><p>Staff who assets can be assigned to</p></div>
+        <div class="page-actions">
+          <button class="btn btn-primary" id="addEmployeeBtn"><i class="fa-solid fa-user-plus"></i> Add Employee</button>
+        </div>
+      </div>
+      <div class="employee-grid" id="employeeGrid"></div>
+    </section>
+
+    <!-- ===== REPORTS PAGE ===== -->
+    <section class="page" id="page-reports">
+      <div class="page-heading">
+        <div><h1>Reports</h1><p>Generate and export asset reports</p></div>
+      </div>
+      <div class="glass-card report-card">
+        <h3><i class="fa-solid fa-file-export"></i> Export Full Asset Report</h3>
+        <p>Download or print a complete summary of all lab assets, statuses and assignments.</p>
+        <div class="report-actions">
+          <button class="btn btn-outline" id="exportPdfBtn"><i class="fa-solid fa-file-pdf"></i> Export PDF</button>
+          <button class="btn btn-outline" id="exportExcelBtn"><i class="fa-solid fa-file-excel"></i> Export Excel</button>
+          <button class="btn btn-primary" id="printReportBtn"><i class="fa-solid fa-print"></i> Print Report</button>
+        </div>
+      </div>
+      <div class="chart-grid">
+        <div class="glass-card chart-card">
+          <div class="card-head"><h3><i class="fa-solid fa-chart-column"></i> Lab-wise Cost Distribution</h3></div>
+          <div class="chart-holder"><canvas id="chartCost"></canvas></div>
+        </div>
+        <div class="glass-card chart-card">
+          <div class="card-head"><h3><i class="fa-solid fa-plug"></i> Power Status Overview</h3></div>
+          <div class="chart-holder"><canvas id="chartPower"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SETTINGS PAGE ===== -->
+    <section class="page" id="page-settings">
+      <div class="page-heading">
+        <div><h1>Settings</h1><p>Preferences for this dashboard</p></div>
+      </div>
+      <div class="glass-card settings-card">
+        <div class="setting-row">
+          <div><b>Dark Mode</b><p>Switch between light and dark interface themes</p></div>
+          <label class="switch"><input type="checkbox" id="settingsDarkToggle"><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div><b>Email Alerts</b><p>Get notified when an asset breaks down</p></div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div><b>Auto-refresh Dashboard</b><p>Refresh stat cards every 60 seconds</p></div>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <div><b>Compact Sidebar</b><p>Start with the sidebar collapsed by default</p></div>
+          <label class="switch"><input type="checkbox" id="settingsCompactToggle"><span class="slider"></span></label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ MODALS ============ -->
+<div class="modal-overlay" id="modalOverlay">
+
+  <!-- Add / Edit Asset -->
+  <div class="modal" id="modalAsset">
+    <div class="modal-head">
+      <h3 id="assetModalTitle"><i class="fa-solid fa-cube"></i> Add New Asset</h3>
+      <button class="modal-close" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="assetForm" class="modal-form">
+      <input type="hidden" id="assetEditId">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Asset Name</label>
+          <select id="fAssetName" required></select>
+        </div>
+        <div class="form-field">
+          <label>Category</label>
+          <select id="fCategory" required></select>
+        </div>
+        <div class="form-field">
+          <label>Lab Number</label>
+          <select id="fLab" required></select>
+        </div>
+        <div class="form-field">
+          <label>Serial Number</label>
+          <input type="text" id="fSerial" placeholder="e.g. SN-2024-XXXX" required>
+        </div>
+        <div class="form-field">
+          <label>Purchase Date</label>
+          <input type="date" id="fPurchaseDate" required>
+        </div>
+        <div class="form-field">
+          <label>Warranty (years)</label>
+          <input type="number" id="fWarranty" min="0" max="10" value="1" required>
+        </div>
+        <div class="form-field">
+          <label>Cost (₹)</label>
+          <input type="number" id="fCost" min="0" placeholder="e.g. 45000" required>
+        </div>
+        <div class="form-field">
+          <label>Assigned Employee</label>
+          <select id="fEmployee"><option value="Unassigned">Unassigned</option></select>
+        </div>
+        <div class="form-field">
+          <label>Working Status</label>
+          <select id="fWorkingStatus">
+            <option>Working</option><option>Not Working</option><option>Under Repair</option>
+            <option>Repaired</option><option>Unrepaired</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Power Status</label>
+          <select id="fPowerStatus"><option>Powered On</option><option>Powered Off</option></select>
+        </div>
+        <div class="form-field">
+          <label>Last Maintenance</label>
+          <input type="date" id="fLastMaint">
+        </div>
+        <div class="form-field">
+          <label>Next Maintenance</label>
+          <input type="date" id="fNextMaint">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Asset</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Assign Asset -->
+  <div class="modal" id="modalAssign">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-user-tag"></i> Assign Asset</h3>
+      <button class="modal-close" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="assignForm" class="modal-form">
+      <input type="hidden" id="assignAssetId">
+      <div class="form-grid">
+        <div class="form-field span-2">
+          <label>Asset</label>
+          <input type="text" id="assignAssetLabel" disabled>
+        </div>
+        <div class="form-field">
+          <label>Assign To Employee</label>
+          <select id="fAssignEmployee" required></select>
+        </div>
+        <div class="form-field">
+          <label>Assignment Date</label>
+          <input type="date" id="fAssignDate" required>
+        </div>
+        <div class="form-field span-2">
+          <label>Remarks</label>
+          <textarea id="fAssignRemarks" rows="2" placeholder="Optional notes…"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Confirm Assignment</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Repair Asset -->
+  <div class="modal" id="modalRepair">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-screwdriver-wrench"></i> Send Asset for Repair</h3>
+      <button class="modal-close" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="repairForm" class="modal-form">
+      <input type="hidden" id="repairAssetId">
+      <div class="form-grid">
+        <div class="form-field span-2">
+          <label>Asset</label>
+          <input type="text" id="repairAssetLabel" disabled>
+        </div>
+        <div class="form-field span-2">
+          <label>Issue Description</label>
+          <textarea id="fRepairIssue" rows="2" required placeholder="Describe the fault…"></textarea>
+        </div>
+        <div class="form-field">
+          <label>Sent Date</label>
+          <input type="date" id="fRepairSentDate" required>
+        </div>
+        <div class="form-field">
+          <label>Expected Return</label>
+          <input type="date" id="fRepairReturnDate">
+        </div>
+        <div class="form-field">
+          <label>Technician / Vendor</label>
+          <input type="text" id="fRepairTech" placeholder="e.g. Sai Electronics">
+        </div>
+        <div class="form-field">
+          <label>Repair Status</label>
+          <select id="fRepairStatus"><option>Under Repair</option><option>Repaired</option><option>Unrepaired</option></select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Log Repair</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- View Asset -->
+  <div class="modal" id="modalView">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-eye"></i> Asset Details</h3>
+      <button class="modal-close" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-form" id="viewAssetBody"></div>
+  </div>
+
+  <!-- Add Employee -->
+  <div class="modal" id="modalEmployee">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-user-plus"></i> Add Employee</h3>
+      <button class="modal-close" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="employeeForm" class="modal-form">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Full Name</label>
+          <input type="text" id="fEmpName" required placeholder="e.g. Neha Deshmukh">
+        </div>
+        <div class="form-field">
+          <label>Designation</label>
+          <input type="text" id="fEmpRole" required placeholder="e.g. Lab Assistant">
+        </div>
+        <div class="form-field">
+          <label>Department</label>
+          <input type="text" id="fEmpDept" required placeholder="e.g. Computer Science">
+        </div>
+        <div class="form-field">
+          <label>Primary Lab</label>
+          <select id="fEmpLab"></select>
+        </div>
+        <div class="form-field span-2">
+          <label>Email</label>
+          <input type="email" id="fEmpEmail" required placeholder="name@college.edu">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Add Employee</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Add Lab -->
+  <div class="modal" id="modalLab">
+    <div class="modal-head">
+      <h3><i class="fa-solid fa-door-open"></i> Add Lab</h3>
+      <button class="modal-close" data-close><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="labForm" class="modal-form">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Lab Name</label>
+          <input type="text" id="fLabName" required placeholder="e.g. Lab 5">
+        </div>
+        <div class="form-field">
+          <label>Building / Floor</label>
+          <input type="text" id="fLabLocation" required placeholder="e.g. Block A, 2nd Floor">
+        </div>
+        <div class="form-field">
+          <label>Capacity (seats)</label>
+          <input type="number" id="fLabCapacity" min="1" required placeholder="e.g. 40">
+        </div>
+        <div class="form-field">
+          <label>In-charge</label>
+          <select id="fLabIncharge"></select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Add Lab</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
