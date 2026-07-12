@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - AssetFlow Enterprise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="auth-wrapper">
+  <div class="glass-card auth-card">
+    <div class="brand-mark"><i class="fa-solid fa-server"></i></div>
+    <h2>Welcome Back</h2>
+    <p>Sign in to manage enterprise assets</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div style="background: #fee2e2; color: #b91c1c; padding: 0.75rem; border-radius: 8px; font-size: 0.875rem; margin-bottom: 1rem;">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+      <div class="form-field">
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="name@company.com" required>
+      </div>
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+
+    <div class="auth-footer">
+      No account? <a href="{{ url_for('auth.signup') }}">Sign up here</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
